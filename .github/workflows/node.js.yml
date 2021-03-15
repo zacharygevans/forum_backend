@@ -19,6 +19,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /var/www/html/ # navigate into the folder
+            rm -R forum_backend
             git clone https://github.com/zacharygevans/forum_backend forum_backend # clone the repo into the 'app' folder
             cd forum_backend # navigate into the repo
             npm install # install dependencies 
