@@ -17,7 +17,9 @@ const app = express()
 const corsOptions = {
   origin: '*'
 }
-app.use(cors(corsOptions))
+
+app.use(cors())
+app.options('*', cors()) // include before other routes
 app.use(bodyParser.json())
 
 const jwtOptions = {
