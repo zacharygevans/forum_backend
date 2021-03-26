@@ -146,6 +146,20 @@ app.post('/register', async (req, res, next) => {
 })
 
 app.post('/login', async function (req, res, next) {
+
+      // Website you wish to allow to connect
+      res.setHeader('Access-Control-Allow-Origin', '*');
+
+      // Request methods you wish to allow
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  
+      // Request headers you wish to allow
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  
+      // Set to true if you need the website to include cookies in the requests sent
+      // to the API (e.g. in case you use sessions)
+      res.setHeader('Access-Control-Allow-Credentials', true);
+
   const { username, password } = req.body
   if (username && password) {
     const user = await User.findOne({ where: { username } })
