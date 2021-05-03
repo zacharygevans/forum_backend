@@ -119,7 +119,8 @@ app.post('/register', async (req, res, next) => {
         errors: { password: 'Password should contain at least 8 characters and 1 number' }
       })
     }
-    const hash = bcrypt.hashSync('testtest1', 10)
+    // const hash = bcrypt.hashSync(password, 10)
+    const hash = password
     try {
       const user = await User.create({ username, password: hash })
       res.status(201).json({ user: { username: user.username } })
@@ -161,15 +162,23 @@ app.post('/login', async function (req, res, next) {
       res.setHeader('Access-Control-Allow-Credentials', true);
 
   const { username, password } = req.body
+
+  console.log('username, password >>>>', username, password)
+
   if (username && password) {
     const user = await User.findOne({ where: { username } })
+    console.log('user', user)
+
     if (!user) {
       res.status(401).json({ errors: { username: 'No such user found' } })
     }
-    const isValidPassword = bcrypt.compareSync(password, user.password)
-    if (isValidPassword) {
+    const isValidPassword = user.password
+    console.log('isValidPassword', isValidPassword)
+
+    if (isValidPassword === password) {
       const payload = { id: user.id }
       const token = jwt.sign(payload, jwtOptions.secretOrKey)
+      console.log('token', token)
       res.json({ token: token })
     } else {
       res.status(401).json({ errors: { password: 'Password is incorrect' } })
